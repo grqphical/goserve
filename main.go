@@ -43,7 +43,6 @@ func Handle404(conn net.Conn, url string) {
 	conn.Close()
 	red := color.New(color.FgRed).SprintFunc()
 	fmt.Printf("%s %s from %s\n", red("404"), url, conn.RemoteAddr())
-	return
 }
 
 // Handles any errors that may arise during execution
@@ -81,9 +80,9 @@ func MakeDirectoryPage(directoryPath string) string {
 		HandleError(err)
 
 		if file.IsDir() {
-			fileLinks += fmt.Sprintf("<p>📁 - <a href='%s%s'>%s</a></p>", dirName, file.Name(), file.Name())
+			fileLinks += fmt.Sprintf("<tr><td>📁 <a href='%s%s'>%s</a></td></tr>", dirName, file.Name(), file.Name())
 		} else {
-			fileLinks += fmt.Sprintf("<p>📄 - <a href='%s%s'>%s</a> - %s</p>", dirName, file.Name(), file.Name(), ConvertSize(fi.Size()))
+			fileLinks += fmt.Sprintf("<tr><td>📄 <a href='%s%s'>%s</a></td><td>%s</td></tr>", dirName, file.Name(), file.Name(), ConvertSize(fi.Size()))
 		}
 	}
 	// Add the links to the template and return it

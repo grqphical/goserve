@@ -4,9 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$DIRECTORY$</title>
+    <style>
+        th, td {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 50px;
+        }
+    </style>
 </head>
 <body>
     <h1>Contents of $DIRECTORY$</h1>
-    $LINKS$
+    <table>
+        <tr>
+            <th>File Name</th>
+            <th>Size</th>
+        </tr>
+        $LINKS$
+    </table>
+    
 </body>
 </html>
