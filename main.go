@@ -33,9 +33,8 @@ func ConvertSize(bytes int64) string {
 
 // Creates a 404 not found error for the client
 func Handle404(conn net.Conn, url string) {
-	data, _ := os.ReadFile("templates/404.html")
 	status := 404
-	response := fmt.Sprintf("HTTP/1.1 %d NOT_FOUND\nContent-Type: text/html; charset=UTF-8\n\n%s", status, data)
+	response := fmt.Sprintf("HTTP/1.1 %d NOT_FOUND\nContent-Type: text/html; charset=UTF-8\n\n%s", status, NotFoundTemplate)
 
 	_, err := conn.Write([]byte(response))
 	HandleError(err)
@@ -55,10 +54,6 @@ func HandleError(err error) {
 // If the user goes to a path that is a diretcory, load a custom HTML page with routes to each
 // file in that directory
 func MakeDirectoryPage(directoryPath string) string {
-	// Load our template HTML file
-	template, err := os.ReadFile("templates/directory.html")
-	HandleError(err)
-
 	// If the user goes to the server's root, make sure we load files at / and not the name of the current working directory
 	dirName := filepath.Base(directoryPath) + "/"
 	cwd, err := os.Getwd()
@@ -68,7 +63,7 @@ func MakeDirectoryPage(directoryPath string) string {
 	}
 
 	// Load the directory name into the page template
-	templateString := strings.ReplaceAll(string(template), "$DIRECTORY$", directoryPath)
+	templateString := strings.ReplaceAll(string(DirectoryTemplate), "$DIRECTORY$", directoryPath)
 
 	files, err := os.ReadDir(directoryPath)
 	HandleError(err)
